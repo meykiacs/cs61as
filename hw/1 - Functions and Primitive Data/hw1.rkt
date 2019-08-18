@@ -73,16 +73,27 @@ Your explanation here
         (else (ordered? (bf sent)))))
 
 ; Exercise 7 - Define ends-e
-
+;; This should output (please the above the blue)
+;; (ends-e '(please put the salami above the blue elephant))
 (define (ends-e sent)
-  ; Your code here
-  (error "Not yet implemented")
-)
+  (cond ((empty? sent) '())
+        ((equal? (last (first sent)) 'e) (se (first sent) (ends-e (bf sent))))
+        (else (ends-e (bf sent)))))
 
 ; Exercise 8
-
+;;Devise a test that will tell you whether Racket's and and or are special
+;; forms or ordinary functions.
+;;Why might it be advantageous for an interpreter to treat or as a special form
+;; Can you think of reasons why it might be advantageous to treat or as an ordinary function? 
 #|
-
 Your explanation here
+;; (or #t (/ 1 0))
+;; (and #f (/ 1 0))
+
+;; benefits
+;; 1: getting desired values instead of #t or #f
+;; 2: short circuiting to avoid unnecessay or wrong computation
+;; disadvantages
+;; 1: the next expression needs to be evaluated
 
 |#
