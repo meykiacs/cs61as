@@ -207,7 +207,7 @@ returns:
 ;; challenging
 (define (my-repeated proc n)
   (lambda (x)
-    (if (= n 1) (proc x)
+    (if (= n 0) (lambda (x) x)
               (proc ((my-repeated proc (- n 1)) x)))))
 
 ; Exercise 9 - Define my-every
