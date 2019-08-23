@@ -50,15 +50,12 @@
 ;; Begin Questions:
 ;;Q1 - babybot
   (define (babybot sent)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    sent)
 
 ;;Q2 - stupidbot-creator
   (define (stupidbot-creator motto)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    (lambda (sent)
+      motto))
 
 ;;Q3 - matcherbot-creator
   (define (matcherbot-creator pattern)
