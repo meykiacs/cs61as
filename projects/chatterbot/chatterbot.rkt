@@ -59,52 +59,66 @@
 
 ;;Q3 - matcherbot-creator
   (define (matcherbot-creator pattern)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    (define (helper sent my-pattern) 
+      (cond ((empty? my-pattern) sent)
+            ((empty? sent) #f)
+            ((equal? (first my-pattern) (first sent)) (helper (bf sent) (bf my-pattern)))
+            (else (helper (bf sent) pattern))))
+    (lambda (sent) (helper sent pattern)))
 
 ;;Q4 - substitutebot-creator
   (define (substitutebot-creator from to)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    (define (helper sent fr t)
+      (cond ((empty? sent) '())
+            ((empty? fr) (se (first sent) (helper (bf sent) from to)))
+            ((equal? (first sent) (first fr)) (se (first t) (helper (bf sent) from to)))
+            (else (helper sent (bf fr) (bf t)))))
+    (lambda (sent) (helper sent from to)))
 
 ;;Q5 - switcherbot
   (define (switcherbot sent)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    (define helper (substitutebot-creator '(me I am was my mine you are were your yours) '(you you are were your yours me am was my mine)))
+    (if (equal? (first sent) 'you)
+        (se 'I (helper (bf sent)))
+        (helper sent)))
 
 
 ;;Q6 - inquisitivebot
   (define (inquisitivebot sent)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    (if (empty? sent)
+        ('())
+        (se (switcherbot sent) '?)))
   
 ;;Q7 - eliza
   (define (eliza sent)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    (cond ((empty? sent) '(how can I help you ?))
+          ((equal? (first sent) 'hello) '(hello there!))
+          ((equal? (last sent) '?) '(I can not answer your question.))
+          (((matcherbot-creator '(I am)) sent) (se '(why are you) (inquisitivebot ((matcherbot-creator '(I am)) sent))))
+          (else (switcherbot sent))))
 
 ;;Q8 - reactorbot-creator
   (define (reactorbot-creator bot pat out)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    (lambda (sent)
+      (if (equal? sent pat)
+          out
+          (bot sent))))
 
 ;;Q9 - replacerbot-creator
   (define (replacerbot-creator bot pat before after)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
+    (lambda (sent)
+      (if ((matcherbot-creator pat) sent)
+          (se before ((matcherbot-creator pat) sent) after)
+          (bot sent))))
 
 ;;Q10 - exagerate
   (define (exaggerate bot n)
-    ;;insert your answer here
-    (error "not yet implemented")
-  )
-
+    (define (helper sent)
+      (cond ((empty? sent) '())
+            ((adjective? (first sent)) (se 'very (first sent) (helper (bf sent)) ))
+            (else (se (first sent) (helper (bf sent))))))
+    
+    (lambda (sent)
+      ((repeated helper n) sent)))
 ;;REMEMBER TO ADD YOUR OWN TESTS TO GRADER.RKT!
 ;;END OF PROJECT 1

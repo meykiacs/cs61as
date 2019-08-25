@@ -39,6 +39,31 @@
         #f
         "test 2")
       ;; Add more tests here
+      (check-equal?
+        ((matcherbot-creator '(hufflepuffs are great)) 
+        '(slytherins hate hufflepuffs but hufflepuffs are great finders))
+        '(finders)
+        "test 3")
+      (check-equal?
+        ((matcherbot-creator '(hufflepuffs are great)) 
+        '(slytherins hate hufflepuffs but hufflepuffs are great))
+        '()
+        "test 4")
+      (check-equal?
+        ((matcherbot-creator '()) 
+        '(slytherins hate hufflepuffs but hufflepuffs are great finders))
+        '(slytherins hate hufflepuffs but hufflepuffs are great finders)
+        "test 5")
+      (check-equal?
+        ((matcherbot-creator '(hufflepuffs are great)) 
+        '(hufflepuffs are great finders))
+        '(finders)
+        "test 6")
+      (check-equal?
+        ((matcherbot-creator '(hufflepuffs are great)) 
+        '(are great finders))
+        #f
+        "test 7")
     )
 
     (test-case
@@ -48,6 +73,14 @@
         '(good pretty smart)
         "test 1")
       ;; Add more tests here
+      (check-equal?
+        ((substitutebot-creator '(bad ugly stupid hate sad mad disgusting) '(good pretty smart lov happy calm delicious)) '())
+        '()
+        "test 2")
+      (check-equal?
+        ((substitutebot-creator '(bad ugly stupid hate sad mad disgusting) '(good pretty smart lov happy calm delicious)) '(hello there!))
+        '(hello there!)
+        "test 3")
     )
 
     (test-case
@@ -57,6 +90,14 @@
         '(I am smart but you are smarter than me)
         "test 1")
       ;; Add more tests here
+      (check-equal?
+        (switcherbot '(I am smart but you are smarter than me))
+        '(you are smart but me am smarter than you)
+        "test 2")
+      (check-equal?
+        (switcherbot '(my cat is smart but yours is smarter than mine))
+        '(your cat is smart but mine is smarter than yours)
+        "test 3")
     )
 
     (test-case
@@ -91,6 +132,10 @@
         '(how can I help you ?)
         "test 4")
       ;; Add more tests here
+      (check-equal?
+        (eliza '(I want to talk to you))
+        '(you want to talk to me)
+        "test 5")
     )
 
     (test-case
@@ -104,6 +149,14 @@
         '(WE are Groot)
         "test 2")
       ;; Add more tests here
+      (check-equal?
+        ((reactorbot-creator (matcherbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(I am Groot hi)) 
+        '(hi)        
+        "test 3")
+      (check-equal?
+        ((reactorbot-creator (matcherbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(no Groot youll die why are you doing this)) 
+        '(WE are Groot)        
+        "test 3")
     )
 
     (test-case
@@ -126,6 +179,14 @@
         '(this soup is very hot and very tasty)
         "test 1")
       ;; Add more tests here
+      (check-equal?
+        ((exaggerate babybot 2) '(this soup is hot and tasty))
+        '(this soup is very very very hot and very very very tasty)
+        "test 2")
+      (check-equal?
+        ((exaggerate babybot 0) '(this soup is hot and tasty))
+        '(this soup is hot and tasty)
+        "test 3")
     )
 ))
 
