@@ -5,7 +5,9 @@
 
 ; Exercise 1
 
-; SICP 2.7 - Define upper-bound and lower-bound
+;; as a set of arithmetic operations for combining ``intervals'' (objects that represent the range of possible values of an inexact quantity)
+;; R = a/(1/R1 + 1/R2)
+;; SICP 2.7 - Define upper-bound and lower-bound
 
 (define (add-interval x y)
   (make-interval (+ (lower-bound x) (lower-bound y))
@@ -22,23 +24,23 @@
 (define (make-interval a b) (cons a b))
 
 (define (upper-bound interval)
-  (error "Not yet implemented"))
-
+  (cdr interval))
 (define (lower-bound interval)
-  (error "Not yet implemented"))
-
+  (car interval))
 ; SICP 2.8 - Define sub-interval
 
 (define (sub-interval x y)
-  (error "Not yet implemented"))
-
+  (make-interval (- (lower-bound x) (upper-bound y))
+                 (- (upper-bound x) (lower-bound y))))
 ; SICP 2.10 - Modify div-interval
 
+;; to consider dividing by zero
 (define (div-interval x y)
-  (mul-interval x 
+  (if (>= (* (upper-bound y) (lower-bound y)) 0.)
+      (mul-interval x 
                 (make-interval (/ 1 (upper-bound y))
-                               (/ 1 (lower-bound y)))))
-
+                               (/ 1 (lower-bound y))))
+      (error "divide by zero")))
 
 ;SICP 2.12 - Define make-center-percent and percent
 
@@ -50,8 +52,10 @@
   (/ (- (upper-bound i) (lower-bound i)) 2))
 
 (define (make-center-percent c tol)
-  (error "Not yet implemented"))
+  (cons (- c (/ (* c tol) 100)) (+ c (/ (* c tol) 100))))
 
+(define (percent i)
+  (* (/ (- (upper-bound i) (center i)) (center i)) 100))
 ; SICP 2.17 - Define last-pair
 
 (define (last-pair lst)
