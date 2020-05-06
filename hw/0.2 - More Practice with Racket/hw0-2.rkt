@@ -82,8 +82,11 @@
         ((< secs (* 60 60 24 365.25)) (se (/ secs (* 60.0 60 24)) 'days))))
 
 ;Exercise 8 - Explain why superlative doesnt work:
-(define (superlative adjective word)
-  (se (word adjective 'est) word))
+; (define (superlative adjective word)
+;   (se (word adjective 'est) word))
+
+(define (superlative adjective wd)
+  (se (word adjective 'est) wd))
 
 #|
 
