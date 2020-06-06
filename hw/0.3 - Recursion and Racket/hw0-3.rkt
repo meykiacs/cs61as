@@ -5,7 +5,7 @@
 
 ; Exercise 1 - Define describe-time
 (define (describe-time secs)
-  (define make-pl (lambda (wd num) (if (< num 2) (word wd 's) (word wd 's))))  ; the grader supposes singulars take (s) too
+  (define make-pl (lambda (wd num) (word wd 's)))  ; the grader supposes singulars take (s) too
   (cond ((< secs 60) (se secs (make-pl 'second secs)))
     ((< secs (* 60 60)) (se (quotient secs 60) (make-pl 'minute  (quotient secs 60)) (describe-time (remainder secs 60))))
     ((< secs (* 60 60 24)) (se (quotient secs (* 60 60)) (make-pl 'hour (quotient secs (* 60 60))) (describe-time (remainder secs (* 60 60)))))

@@ -90,9 +90,14 @@ Your explanation here
 ;; (or #t (/ 1 0))
 ;; (and #f (/ 1 0))
 
+;; (or (empty? nums) (empty? (bf nums))) 
+;; (and (integer? x) (even? x))
+
+
 ;; benefits
 ;; 1: getting desired values instead of #t or #f
-;; 2: short circuiting to avoid unnecessay or wrong computation
+;; 2: avoid unnecessay or wrong computation
+;; 3: avoid else for a more specific condition
 ;; disadvantages
 ;; 1: the next expression needs to be evaluated
 
