@@ -71,28 +71,28 @@ procedure
 
 ; Exercise 4 - Define f1, f2, f3, f4, and f5
 ;  For each expression, give a definition of f such that evaluating the expression will not cause an error, and say what the expression's value will be, given your definition. 
-#|
--> f1
+
+;; -> f1
 (define f1 2)
-2
+;; 2
 
--> (f2)
+;; -> (f2)
 (define f2 +)
-#<procedure
+;; #<procedure
 
--> (f3 3)
+;; -> (f3 3)
 (define (f3 x) (* x x))
-9
+;; 9
 
-((f4))
+;; -> ((f4))
 (define f4 (lambda () (lambda () (* 4 4))))
-16
+;; 16
 
-(((f5)) 3)
+;; -> (((f5)) 3)
 (define f5 (lambda () (lambda () (lambda (x) (* x x)))))
-9
+;; 9
 
-|#
+
 ; Exercise 5 - Try out the expressions
 
 (define (t f) 
@@ -156,9 +156,9 @@ returns:
   (product (lambda (x) x) 1 (lambda (x) (+ x 1)) n))
 
 (define (estimate-pi)
-  (define (sqaure x) (* x x))
+  (define (square x) (* x x))
   (define (add2 x) (+ 2.0 x))
-  (/ (* 8.0 (product sqaure 4.0 add2 100)) (* 100 (product sqaure 3.0 add2 100))))
+  (/ (* 8.0 (product square 4.0 add2 100)) (* 100 (product square 3.0 add2 100))))
 
 ; SICP 1.32a
 
@@ -204,14 +204,13 @@ returns:
   (lambda (x) (proc (proc x))))
 
 ; SICP 1.43 - Define repeated
-;; challenging
 (define (my-repeated proc n)
-  (lambda (x)
-    (if (= n 0) (lambda (x) x)
-              (proc ((my-repeated proc (- n 1)) x)))))
+  (if (= n 0)
+      (lambda (x) x)
+      (compose proc (my-repeated proc (- n 1)))))
+
 
 ; Exercise 9 - Define my-every
-
 (define (my-every proc sent)
   (if (empty? sent) 
     '()
