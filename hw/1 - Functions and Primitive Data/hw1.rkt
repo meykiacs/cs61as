@@ -84,13 +84,13 @@ Your explanation here
 ;;Devise a test that will tell you whether Racket's and and or are special
 ;; forms or ordinary functions.
 ;;Why might it be advantageous for an interpreter to treat or as a special form
-;; Can you think of reasons why it might be advantageous to treat or as an ordinary function? 
+;; Can you think of reasons why it might be advantageous to treat or as an ordinary function?
 #|
 Your explanation here
 ;; (or #t (/ 1 0))
 ;; (and #f (/ 1 0))
 
-;; (or (empty? nums) (empty? (bf nums))) 
+;; (or (empty? nums) (empty? (bf nums)))
 ;; (and (integer? x) (even? x))
 
 

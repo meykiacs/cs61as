@@ -16,7 +16,7 @@
 
 #|
 (lambda (x) (+ x 3))
--> returns: 
+-> returns:
 #<procedure>
 
 ((lambda (x) (+ x 3)) 7)
@@ -24,27 +24,27 @@
 10
 
 (define (make-adder num)
-  (lambda (x) (+ x num))) 
+  (lambda (x) (+ x num)))
 ((make-adder 3) 7)
 -> returns:
 10
 
-(define plus3 (make-adder 3)) 
+(define plus3 (make-adder 3))
 (plus3 7)
 -> returns:
 10
 
-(define (square x) (* x x)) 
+(define (square x) (* x x))
 (square 5)
 -> returns:
 25
 
-(define square (lambda (x) (* x x))) 
+(define square (lambda (x) (* x x)))
 (square 5)
 -> returns
 25
 
-(define (try f) (f 3 5)) 
+(define (try f) (f 3 5))
 (try +)
 -> returns:
 8
@@ -61,7 +61,7 @@ Consider a function g for which the expression
 ((g) 1)
 returns the value 3 when evaluated.
 
-Number of arguments g has: 
+Number of arguments g has:
 0
 
 Type of value returned by g:
@@ -70,7 +70,7 @@ procedure
 |#
 
 ; Exercise 4 - Define f1, f2, f3, f4, and f5
-;  For each expression, give a definition of f such that evaluating the expression will not cause an error, and say what the expression's value will be, given your definition. 
+;  For each expression, give a definition of f such that evaluating the expression will not cause an error, and say what the expression's value will be, given your definition.
 
 ;; -> f1
 (define f1 2)
@@ -95,7 +95,7 @@ procedure
 
 ; Exercise 5 - Try out the expressions
 
-(define (t f) 
+(define (t f)
   (lambda (x) (f (f (f x)))) )
 
 #|
@@ -212,7 +212,7 @@ returns:
 
 ; Exercise 9 - Define my-every
 (define (my-every proc sent)
-  (if (empty? sent) 
+  (if (empty? sent)
     '()
     (se (proc (first sent)) (my-every proc (bf sent)))))
 

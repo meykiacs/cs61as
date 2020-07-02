@@ -86,13 +86,13 @@
 ;; '(the samurai samurai samurai samurai samurai samurai samurai)
   (cond ((empty? sent) '())
         ((empty? (bf sent)) sent)
-        ((integer? (first sent)) (se (copies (if (integer? (first (bf sent))) (first sent) (- (first sent) 1)) (first (bf sent))) (repeat-words (bf sent)))) 
+        ((integer? (first sent)) (se (copies (if (integer? (first (bf sent))) (first sent) (- (first sent) 1)) (first (bf sent))) (repeat-words (bf sent))))
         (else (se (first sent) (repeat-words (bf sent))))))
   ; (cond ((empty? sent) '())
   ;       ((and (number? (first sent)) (> (first sent) 1)) (repeat-words (se (- (first sent) 1) (first (bf sent))  (bf sent))))
   ;       ((and (number? (first sent)) (= (first sent) 1)) (repeat-words (bf sent)))
   ;       (else (se (first sent) (repeat-words (bf sent))))))
-        
+
 
 ; Exercise 9 - Define same-shape?
 (define (same-shape? sent1 sent2)
