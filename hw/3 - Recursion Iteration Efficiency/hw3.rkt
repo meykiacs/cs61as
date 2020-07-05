@@ -3,21 +3,24 @@
 (require berkeley)
 (provide (all-defined-out))
 
-; Exercise 1 - Define fast-expt-iter
+; Exercise 1: Invariant for Fast Exponentiation
+; Define fast-expt-iter
 ; Design a procedure that
 ; evolves an iterative exponentiation process
 ; that uses successive squaring and uses a logarithmic number of steps
 ; as does fast-expt
 (define (fast-expt-iter b n)
-  (define (iter b n a)
-    (cond ((= n 0) a)
-          ((even? n) (iter (* b b) (/ n 2) a))
-          (else (iter b (- n 1) (* a b)))))
+  (define (iter base power mul)
+    (cond ((= power 1) (* base mul))
+          ((even? power) (iter (* base base) (/ power 2) mul))
+          (else (iter base (- power 1) (* mul base)))))
   (iter b n 1))
 
-; Exericse 2 - Define phi (phi^2 = phi + 1)
-; Show that the golden ratio phi (Section 1.2.2) is
-; a ﬁxed point of the transformation x 7→ 1 + 1/x,
+; Exercise 2: Golden Ratio (Optional)
+; Read the subsection on finding fixed points of functions in SICP,
+; Golden ration: phi^2 = phi + 1
+; the golden ratio phi is
+; a ﬁxed point of the transformation x -> 1 + 1/x,
 ; and use this fact to compute phi by means of the fixed-point procedure.
 
 (define tolerance 0.00001)
@@ -66,17 +69,26 @@
                        1.0)) k) 2.0))
 
 ; Exercise 4 - Define next-perf
-
 (define (next-perf n)
-  (define (sum-of-factors x)
-    (define (iter x counter result)
-      (cond ((= x counter) result)
-            ((= (remainder x counter) 0) (iter x (+ 1 counter) (+ result counter)))
-            (else (iter x (+ 1 counter) result))))
-    (iter x 1 0))
-  (if (= n (sum-of-factors n))
+  (define (sum-of-factors m)
+    (cond [(= m 1) 1]
+          [(and (= (remainder n m) 0) (not (= n m)))
+           (+ m (sum-of-factors (- m 1)))]
+          [else (sum-of-factors (- m 1))]))
+  (if (= (sum-of-factors n) n)
       n
       (next-perf (+ n 1))))
+
+;; (define (next-perf-iter n)
+;;   (define (sum-of-factors x)
+;;     (define (iter x counter result)
+;;       (cond ((= x counter) result)
+;;             ((= (remainder x counter) 0) (iter x (+ 1 counter) (+ result counter)))
+;;             (else (iter x (+ 1 counter) result))))
+;;     (iter x 1 0))
+;;   (if (= n (sum-of-factors n))
+;;       n
+;;       (next-perf-iter (+ n 1))))
 
 ; Exercise 5 - Explain what happens when the base cases are interchanged.
 #|
@@ -118,3 +130,5 @@ b^n = b^n
 Formula for expt-iter:
 b^counter*product = b^n
 |#
+
+
