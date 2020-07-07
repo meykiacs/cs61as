@@ -11,7 +11,7 @@
 ; as does fast-expt
 (define (fast-expt-iter b n)
   (define (iter base power mul)
-    (cond ((= power 1) (* base mul))
+    (cond ((= power 0) mul)
           ((even? power) (iter (* base base) (/ power 2) mul))
           (else (iter base (- power 1) (* mul base)))))
   (iter b n 1))
@@ -42,19 +42,21 @@
 ; Exercise 3 - Define cont-frac: an infinite continued fraction
 ;; f = n(k)/(d(i) + (n(i-1)/(d(i-1) + ...
 ;; 1/phi = 1 / (1 + 1/(1+(1/(1+...
-;; Recursive version
+;; recursive
 (define (cont-frac n d k)
-  (if (= k 0)
-      0
-      (/ (n k) (+ (d k) (cont-frac n d (- k 1))))))
+  (define (iter m)
+    (if (> m k)
+      0.0
+      (/ (n m) (+ (d m) (iter (+ m 1))))))
+  (iter 1))
 
-;; Iterative version
+;; iteration
 (define (cont-frac-iter n d k)
-  (define (iter n d k a)
-    (if (= k 0)
-        a
-        (iter n d (- k 1) (/ (n k) (+ (d k) a)))))
-  (iter n d k 0))
+  (define (iter counter result)
+    (if (= counter 0)
+        result
+        (iter (- counter 1) (/ (n counter) (+ (d counter) result)))))
+  (iter k 0.0))
 
 ;; check:
 ; (cont-frac (lambda (i) 1.0) (lambda (i) 1.0) 20)
@@ -65,17 +67,17 @@
   (+ (cont-frac
        (lambda (i) 1.0)
        (lambda (i) (if (= (remainder i 3) 2)
-                       (+ 1.0 (* 2.0 (quotient i 3)))
+                       (+ 2.0 (* 2.0 (quotient i 3)))
                        1.0)) k) 2.0))
 
 ; Exercise 4 - Define next-perf
 (define (next-perf n)
-  (define (sum-of-factors m)
-    (cond [(= m 1) 1]
-          [(and (= (remainder n m) 0) (not (= n m)))
-           (+ m (sum-of-factors (- m 1)))]
-          [else (sum-of-factors (- m 1))]))
-  (if (= (sum-of-factors n) n)
+  (define (sum-of-factors counter)
+    (cond [(<= counter 0) 0]
+          [(= (remainder n counter) 0)
+           (+ counter (sum-of-factors (- counter 1)))]
+          [else (sum-of-factors (- counter 1))]))
+  (if (and (= (sum-of-factors (- n 1)) n) (not (= n 0)))
       n
       (next-perf (+ n 1))))
 

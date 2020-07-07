@@ -33,7 +33,7 @@
      ;;(check-= (phi) 1.618 0.001))
    (define/test
     cont-frac-tests
-    (check-equal? (cont-frac (lambda (x) x) (lambda (x) x) 1) 1)
+    (check-equal? (cont-frac (lambda (x) x) (lambda (x) x) 1) 1.0)
     (check-= (cont-frac (lambda (x) x) (lambda (x) x) 10) 0.5819 0.001)
     (check-equal?
      (<
