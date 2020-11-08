@@ -63,9 +63,9 @@ Your answer here
 ;; Exercise 4 - new-if vs if
 (define (infinite-loop) (infinite-loop))
 
-(if (= 3 6)
-  (infinite-loop)
-  (/ 4 2))
+;; (if (= 3 6)
+;;   (infinite-loop)
+;;   (/ 4 2))
 
 (define (new-if test then-case else-case)
   (if test
