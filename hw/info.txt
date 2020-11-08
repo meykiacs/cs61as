@@ -1,3 +1,5 @@
 grader:
 racket -tm grader.rkt -- hw0-1-tests.rkt hw0-1.rkt sum-of-squares
 racket -tm grader.rkt -- hw0-1-tests.rkt hw0-1.rkt
+
+hw1: q5: handling a general case with a helper function and handling the special case seperately
