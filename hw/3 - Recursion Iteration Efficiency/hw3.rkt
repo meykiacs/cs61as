@@ -5,8 +5,7 @@
 
 ; Exercise 1: Invariant for Fast Exponentiation
 ; Define fast-expt-iter
-; Design a procedure that
-; evolves an iterative exponentiation process
+; Design a procedure that evolves an iterative exponentiation process
 ; that uses successive squaring and uses a logarithmic number of steps
 ; as does fast-expt
 (define (fast-expt-iter b n)
