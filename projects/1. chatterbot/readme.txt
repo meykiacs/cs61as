@@ -28,7 +28,7 @@ To get the directory on your laptop, if you use Mac OS or Unix:
 Please make sure to test your code before submitting.
 ANY AND ALL CODE THAT DOES NOT LOAD IN THE INTERPRETER WILL RECEIVE AN AUTOMATIC ZERO.
 We have an autograder provided for you, but note that it is not comprehensive.
-You can take a look at the tests inside "grader.rkt" 
+You can take a look at the tests inside "grader.rkt"
 
 YOU MUST ADD QUESTIONS TO THE AUTOGRADER
 
@@ -45,18 +45,18 @@ this project. Let's start with the simplest of them all!
 Create a baby ChatterBot called babybot that repeats exactly what you say.
 babybot will take in a sentence and output a sentence.
 
-You can try interacting with your very simple bot by loading chatterbot.rkt 
+You can try interacting with your very simple bot by loading chatterbot.rkt
 and calling the "interact" function. It takes in a bot, and starts a
 conversation with them
 
 -> (interact babybot)
 CB> hey there
-hey there 
+hey there
 CB> are you repeating everything I said?
-are you repeating everything I said 
+are you repeating everything I said
 CB> bye
 okay
--> 
+->
 
 You can try interact with other bots later in the project
 
@@ -137,7 +137,7 @@ A list of viewpoints:
 	my <-> your
 	yours <-> mine
 
-switcherbot takes in a sentence SENT and outputs SENT with its viewpoint switched. 
+switcherbot takes in a sentence SENT and outputs SENT with its viewpoint switched.
 (Hint: How can you use a previous problem to help you solve this problem?)
 Example:
 	-> (switcherbot '(you are reia but I am a bird))
@@ -199,7 +199,7 @@ Example:
 	-> (define stupidbot (stupidbot-creator '(I am Groot)))
 	-> (define groot (reactorbot-creator stupidbot '(no Groot youll die why are you doing this) '(WE are Groot)))
 	-> (groot '(whats up groot))
-		(I am Groot)) 
+		(I am Groot))
 	-> (groot '(no Groot youll die why are you doing this))
 		(WE are Groot)
 
@@ -221,7 +221,7 @@ Write replacerbot-creator.
 ---Page Break---
 Part 10: Write the procedure exaggerate that takes in a bot. BOT1 and a number N. It returns
 a new bot, BOT. BOT takes in a sentence, and responds how BOT1 would except that
-it prepends 'very' before any adjective in its response. 
+it prepends 'very' before any adjective in its response.
 The bot inspects its output and repeats this process N times.
 
    	-> (define exaggerated-babybot1 (exaggerate babybot 1))

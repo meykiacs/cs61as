@@ -40,27 +40,27 @@
         "test 2")
       ;; Add more tests here
       (check-equal?
-        ((matcherbot-creator '(hufflepuffs are great)) 
+        ((matcherbot-creator '(hufflepuffs are great))
         '(slytherins hate hufflepuffs but hufflepuffs are great finders))
         '(finders)
         "test 3")
       (check-equal?
-        ((matcherbot-creator '(hufflepuffs are great)) 
+        ((matcherbot-creator '(hufflepuffs are great))
         '(slytherins hate hufflepuffs but hufflepuffs are great))
         '()
         "test 4")
       (check-equal?
-        ((matcherbot-creator '()) 
+        ((matcherbot-creator '())
         '(slytherins hate hufflepuffs but hufflepuffs are great finders))
         '(slytherins hate hufflepuffs but hufflepuffs are great finders)
         "test 5")
       (check-equal?
-        ((matcherbot-creator '(hufflepuffs are great)) 
+        ((matcherbot-creator '(hufflepuffs are great))
         '(hufflepuffs are great finders))
         '(finders)
         "test 6")
       (check-equal?
-        ((matcherbot-creator '(hufflepuffs are great)) 
+        ((matcherbot-creator '(hufflepuffs are great))
         '(are great finders))
         #f
         "test 7")
@@ -141,8 +141,8 @@
     (test-case
       "reactorbot-creator"
       (check-equal?
-        ((reactorbot-creator (stupidbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(whats up Groot)) 
-        '(I am Groot)        
+        ((reactorbot-creator (stupidbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(whats up Groot))
+        '(I am Groot)
         "test 1")
       (check-equal?
         ((reactorbot-creator (stupidbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(no Groot youll die why are you doing this))
@@ -150,19 +150,19 @@
         "test 2")
       ;; Add more tests here
       (check-equal?
-        ((reactorbot-creator (matcherbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(I am Groot hi)) 
-        '(hi)        
+        ((reactorbot-creator (matcherbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(I am Groot hi))
+        '(hi)
         "test 3")
       (check-equal?
-        ((reactorbot-creator (matcherbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(no Groot youll die why are you doing this)) 
-        '(WE are Groot)        
+        ((reactorbot-creator (matcherbot-creator '(I am Groot)) '(no Groot youll die why are you doing this) '(WE are Groot)) '(no Groot youll die why are you doing this))
+        '(WE are Groot)
         "test 3")
     )
 
     (test-case
       "replacerbot-creator"
       (check-equal?
-        ((replacerbot-creator (lambda (sent) (if (member? '? sent) '(I dont know) '(thats nice))) '(I am) '(hi) '(im dadbot)) '(youre pretty dumb)) 
+        ((replacerbot-creator (lambda (sent) (if (member? '? sent) '(I dont know) '(thats nice))) '(I am) '(hi) '(im dadbot)) '(youre pretty dumb))
         '(thats nice)
         "test 1")
       (check-equal?

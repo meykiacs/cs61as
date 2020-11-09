@@ -2,5 +2,8 @@ grader:
 racket -tm grader.rkt -- hw0-1-tests.rkt hw0-1.rkt sum-of-squares
 racket -tm grader.rkt -- hw0-1-tests.rkt hw0-1.rkt
 
-hw1: q5: handling a general case with a helper function and handling the special case seperately
+hw1: q5: create general case with a helper function and handling the special case seperately
 hw2: q5-3 hof of an hof function
+project1: q3 and q4: helper fiunctions to keep the input intact when recursion
+project1: q6 create a general case with a helper function and handling the special case seperately
+project1: q10 create a helper function and repeat the helper n times on the argument
