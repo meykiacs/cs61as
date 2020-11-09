@@ -107,6 +107,7 @@ returns:
 9
 
 3. (((t t) add1) 0) returns:
+;; (((lambda (x) (t (t (t x))))
 27
 |#
 
@@ -162,8 +163,7 @@ returns:
 
 ; SICP 1.32a
 
-;; This is called my-accumulate so it doesn't conflict with Simply
-;; Scheme's accumulate.
+;; This is called my-accumulate so it doesn't conflict with Simply Scheme's accumulate.
 (define (my-accumulate combiner null-value term a next b)
   (if (> a b) null-value
               (combiner (term a) (my-accumulate combiner null-value term (next a) next b))))
@@ -178,15 +178,21 @@ returns:
 
 
 ; SICP 1.33
-;  write filtered-accumulate that combines only those terms derived from values in the range that satisfy a specified condition. The resulting filtered-accumulate abstraction takes the same arguments as accumulate, together with an additional predicate of one argument that specifies the filter.
+; write filtered-accumulate that combines only those terms derived from values
+; in the range that satisfy a specified condition.
+; The resulting filtered-accumulate abstraction takes the same arguments as accumulate,
+; together with an additional predicate of one argument that specifies the filter.
 (define (filtered-accumulate combiner null-value term a next b pred)
   (cond ((> a b) null-value)
         ((pred a) (combiner (term a) (filtered-accumulate combiner null-value term (next a) next b pred)))
         (else (filtered-accumulate combiner null-value term (next a) next b pred))))
 
+; define sum-sq-prime the sum of the squares of the prime numbers in the interval a to b
 (define (sum-sq-prime a b)
   (filtered-accumulate + 0 (lambda (x) (* x x)) a add1 b prime?))
 
+; define prod-of-some-numbers the product of all the positive integers less than n
+; that are relatively prime to n (i.e., all positive integers i < n such that GCD(i,n) = 1).
 (define (rel-prime? x y)
   (= (gcd x y) 1))
 
@@ -208,7 +214,6 @@ returns:
   (if (= n 0)
       (lambda (x) x)
       (compose proc (my-repeated proc (- n 1)))))
-
 
 ; Exercise 9 - Define my-every
 (define (my-every proc sent)
