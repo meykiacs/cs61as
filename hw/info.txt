@@ -7,3 +7,5 @@ hw2: q5-3 hof of an hof function
 project1: q3 and q4: helper fiunctions to keep the input intact when recursion
 project1: q6 create a general case with a helper function and handling the special case seperately
 project1: q10 create a helper function and repeat the helper n times on the argument
+hw4: q1 sicp 2.20: dotted tail notation
+		 q1 sicp 2.22: when manipulating a list results in reverse order or lists of lists

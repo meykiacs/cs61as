@@ -23,27 +23,32 @@
 
 (define (make-interval a b) (cons a b))
 
+; SICP 2.7 Define selectors upper-bound and lower-bound to complete the implementation.
 (define (upper-bound interval)
   (cdr interval))
 (define (lower-bound interval)
   (car interval))
+
 ; SICP 2.8 - Define sub-interval
 
 (define (sub-interval x y)
   (make-interval (- (lower-bound x) (upper-bound y))
                  (- (upper-bound x) (lower-bound y))))
-; SICP 2.10 - Modify div-interval
 
+; SICP 2.10 - Modify div-interval
 ;; to consider dividing by zero
 (define (div-interval x y)
   (if (>= (* (upper-bound y) (lower-bound y)) 0.)
-      (mul-interval x 
+      (mul-interval x
                 (make-interval (/ 1 (upper-bound y))
                                (/ 1 (lower-bound y))))
       (error "divide by zero")))
 
-;SICP 2.12 - Define make-center-percent and percent
-
+; SICP 2.12 - Define make-center-percent and percent
+;; Define a constructor make-center-percent that takes a center and a percentage tolerance
+;; and produces the desired interval. You must also define a selector percent
+;; that produces the percentage tolerance for a given interval.
+;; The center selector is the same as the one shown above.
 (define (make-center-width c w)
   (make-interval (- c w) (+ c w)))
 (define (center i)
@@ -56,12 +61,15 @@
 
 (define (percent i)
   (* (/ (- (upper-bound i) (center i)) (center i)) 100))
+
+
 ; SICP 2.17 - Define last-pair
 ; Define a procedure last-pair that returns the list that contains only the last element of a given (nonempty) list:
 (define (last-pair lst)
   (if (null? (cdr lst))
       lst
       (last-pair (cdr lst))))
+
 ; SICP 2.20 - Define same-parity
 ; write a procedure same-parity that takes one or more integers and returns a list of all the arguments that have the same even-odd parity as the first argument. For example,
 
@@ -72,7 +80,7 @@
 ; (2 4 6)
 
 (define (same-parity x . y)
-  (cons x 
+  (cons x
         (if (even? x)
           (filter even? y)
           (filter odd? y))))
@@ -85,7 +93,7 @@ Louis Reasoner tries to rewrite the first square-list procedure of Exercise 2.21
   (define (iter things answer)
     (if (null? things)
         answer
-        (iter (cdr things) 
+        (iter (cdr things)
               (cons (square (car things))
                     answer))))
   (iter items nil))
@@ -106,9 +114,9 @@ Louis then tries to fix his bug by interchanging the arguments to cons:
 This doesn't work either. Explain.
 
 Your explanation here
-the first once cons the square of car of the rest with the answer from previous iteration
+the first one cons the square of the car of the rest with the answer from previous iteration
 
-the second cons the answer from the previous iteration (which is a list) with with car of the rest 
+the second cons the answer from the previous iteration (which is a list) with with car of the rest
 
 |#
 
@@ -121,14 +129,29 @@ the second cons the answer from the previous iteration (which is a list) with wi
 ; ((lead axe) (bass axe) (rhythm axe) drums)
 
 (define (substitute lst old new)
-  (if (null? lst) 
+  (if (null? lst)
       '()
       (if (list? (car lst))
           (cons (substitute (car lst) old new) (substitute (cdr lst) old new))
           (if (equal? (car lst) old)
             (cons new (substitute (cdr lst) old new))
             (cons (car lst) (substitute (cdr lst) old new))))))
-            
+
+;; a more sophisticated solution
+(define (my-sub lst old new)
+
+  (define
+    sub-word
+    (lambda (item) (if (equal? item old) new item)))
+
+  (if (null? lst)
+      '()
+      (if (list? (car lst))
+          (cons
+           (map sub-word (car lst))
+           (my-sub (cdr lst) old new))
+          (cons (sub-word (car lst)) (my-sub (cdr lst) old new)))))
+
 ; Exercise 3 - Define my-substitute2
 ; Now write my-substitute2 that takes a list, a list of old words, and a list of new words; the last two lists should be the same length. It should return a copy of the first argument, but with each word that occurs in the second argument replaced by the corresponding word of the third argument:
 
@@ -149,6 +172,25 @@ the second cons the answer from the previous iteration (which is a list) with wi
                 (cons (car new1) (helper (cdr lst1) old new))
                 (helper lst1 (cdr old1) (cdr new1)))))))
   (helper lst old new))
+
+
+;; more sophisticated version
+
+(define (my-sub2 lst old new)
+  (define sub-word
+    (lambda (item old new)
+      (cond ((null? old) item )
+            ((not (equal? (car old) item)) (sub-word item (cdr old) (cdr new)))
+            (else (car new)))))
+
+  (if (null? lst)
+      '()
+      (if (list? (car lst))
+          (cons
+           (map (lambda (x) (sub-word x old new)) (car lst))
+           (my-sub2 (cdr lst) old new))
+          (cons (sub-word (car lst) old new) (my-sub2 (cdr lst) old new)))))
+
 
 #|
 Extra for Experts
