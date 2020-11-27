@@ -157,32 +157,47 @@
 ;; Exercise 1
 
 (define (up-split painter n)
-  (error "not yet implemented"))
+  (if (= n 0)
+      painter
+      (let ((smaller (up-split painter (- n 1))))
+        (below painter (beside smaller smaller)))))
+  ;; (error "not yet implemented"))
 
 ;; Exercise 2
 
 (define (split major minor)
-  (error "not yet implemented"))
+  (define (helper painter n)
+    (if (= n 0)
+        painter
+        (major painter (minor (helper painter (- n 1))))))
+  helper)
+  ;; (error "not yet implemented"))
 
 ;; Exercise 3
 
 (define (make-vect major minor)
-  (void "not yet implemented"))
+  (cons major minor))
+  ;; (void "not yet implemented"))
 
-(define xcor-vect
-  "not yet implemented")
+(define xcor-vect car)
+  ;; "not yet implemented")
 
-(define ycor-vect
-  "not yet implemented")
+(define ycor-vect cdr)
+  ;; "not yet implemented")
 
 (define (add-vect v1 v2)
-  (error "not yet implemented"))
+  (make-vect (+ (xcor-vect v1) (xcor-vect v2))
+             (+ (ycor-vect v1) (ycor-vect v2))))
+  ;; (error "not yet implemented"))
 
 (define (sub-vect v1 v2)
-  (error "not yet implemented"))
+  (make-vect (- (xcor-vect v1) (xcor-vect v2))
+             (- (ycor-vect v1) (ycor-vect v2))))
+  ;; (error "not yet implemented"))
 
 (define (scale-vect s v)
-  (error "not yet implemented"))
+  (make-vect (* s (xcor-vect v)) (* s (ycor-vect v))))
+  ;; (error "not yet implemented"))
 
 ;; Execise 4
 
@@ -191,75 +206,164 @@
 (define (make-frame origin edge1 edge2)
   (list origin edge1 edge2))
 
-(define origin-frame
-  "not yet implemented")
+(define origin-frame car)
+  ;; "not yet implemented")
 
-(define edge1-frame
-  "not yet implemented")
+(define edge1-frame cadr)
+  ;; "not yet implemented")
 
-(define edge2-frame
-  "not yet implemented")
+(define edge2-frame caddr)
+  ;; "not yet implemented")
 
 ; Second definition of make-frame
 
 (define (make-frame-2 origin edge1 edge2)
   (cons origin (cons edge1 edge2)))
 
-(define origin-frame-2
-  "not yet implemented")
+(define origin-frame-2 car)
+  ;; "not yet implemented")
 
-(define edge1-frame-2
-  "not yet implemented")
+(define edge1-frame-2 cdar)
+  ;; "not yet implemented")
 
-(define edge2-frame-2
-  "not yet implemented")
+(define edge2-frame-2 cddr)
+  ;; "not yet implemented")
 
 ;; Exercise 5
 
-(define make-segment
-  "not yet implemented")
+(define make-segment cons)
+  ;; "not yet implemented")
 
-(define start-segment
-  "not yet implemented")
+(define start-segment car)
+  ;; "not yet implemented")
 
-(define end-segment
-  "not yet implemented")
+(define end-segment cdr)
+  ;; "not yet implemented")
 
 ;; Exercise 6
 
 (define outline-painter
-  "not yet implemented")
+  (segments->painter (list
+                      (make-segment (make-vect 0 0)
+                                    (make-vect 0 1))
+                      (make-segment (make-vect 0 0)
+                                    (make-vect 1 0))
+                      (make-segment (make-vect 0 1)
+                                    (make-vect 1 1))
+                      (make-segment (make-vect 1 0)
+                                    (make-vect 1 1)))))
+;; "not yet implemented")
 
 (define x-painter
-  "not yet implemented")
+  (segments->painter (list
+                      (make-segment (make-vect 0 0)
+                                    (make-vect 1 1))
+                      (make-segment (make-vect 0 1)
+                                    (make-vect 1 0)))))
+  ;; "not yet implemented")
 
 (define diamond-painter
-  "not yet implemented")
+    (segments->painter (list
+                      (make-segment (make-vect 0 0.5)
+                                    (make-vect 0.5 0))
+                      (make-segment (make-vect 0.5 0)
+                                    (make-vect 1 0.5))
+                      (make-segment (make-vect 1 0.5)
+                                    (make-vect 0.5 1))
+                      (make-segment (make-vect 0.5 1)
+                                    (make-vect 0 0.5)))))
 
 (define wave-painter
-  "not yet implemented")
+  (segments->painter (list
+                      ;; head
+                      (make-segment (make-vect 0.4 1)
+                                    (make-vect 0.3 0.8))
+                      (make-segment (make-vect 0.6 1)
+                                    (make-vect 0.7 0.8))
+                      (make-segment (make-vect 0.4 0.6)
+                                    (make-vect 0.3 0.8))
+                      (make-segment (make-vect 0.6 0.6)
+                                    (make-vect 0.7 0.8))
+
+                      (make-segment (make-vect 0.4 0.6)
+                                    (make-vect 0.2 0.6))
+                      (make-segment (make-vect 0.6 0.6)
+                                    (make-vect 0.8 0.6))
+                      (make-segment (make-vect 0 0.7)
+                                    (make-vect 0.2 0.4))
+                      (make-segment (make-vect 0 0.9)
+                                    (make-vect 0.2 0.6))
+
+                      (make-segment (make-vect 0.2 0.4)
+                                    (make-vect 0.3 0.5))
+                      (make-segment (make-vect 0.3 0.5)
+                                    (make-vect 0.35 0.4))
+                      (make-segment (make-vect 0.35 0.4)
+                                    (make-vect 0.25 0))
+                      (make-segment (make-vect 0.35 0)
+                                    (make-vect 0.5 0.3))
+                      (make-segment (make-vect 0.5 0.3)
+                                    (make-vect 0.6 0))
+                      (make-segment (make-vect 0.7 0)
+                                    (make-vect 0.6 0.45))
+                      (make-segment (make-vect 0.6 0.45)
+                                    (make-vect 1 0.2))
+                      (make-segment (make-vect 0.8 0.6)
+                                    (make-vect 1 0.3))
+
+                      )))
+
+  ;; "not yet implemented")
 
 ;; Exercise 7
 
 (define (flip-horiz painter)
-  (error "not yet implemented"))
+  (transform-painter painter
+                     (make-vect 1.0 0.0)
+                     (make-vect 0.0 0.0)
+                     (make-vect 1.0 1.0)))
+  ;; (error "not yet implemented"))
 
 (define (rotate180 painter)
-  (error "not yet implemented"))
+  (transform-painter painter
+                     (make-vect 1.0 1.0)
+                     (make-vect 0.0 1.0)
+                     (make-vect 1.0 0.0)))
+;; (error "not yet implemented"))
 
 (define (rotate270 painter)
-  (error "not yet implemented"))
+  (transform-painter painter
+                     (make-vect 0.0 1.0)
+                     (make-vect 0.0 0.0)
+                     (make-vect 1.0 1.0)))
+  ;; (error "not yet implemented"))
 
 ;; Exercise 8
 
 (define (below painter1 painter2)
-  (error "not yet implemented"))
+    (let ((split-point (make-vect 0.0 0.5)))
+    (let ((paint-down
+           (transform-painter painter1
+                              (make-vect 0.0 0.0)
+                              (make-vect 1.0 0.0)
+                              split-point
+                              ))
+          (paint-up
+           (transform-painter painter2
+                              split-point
+                              (make-vect 1.0 0.5)
+                              (make-vect 0.0 1.0))))
+      (lambda (frame)
+        (paint-up frame)
+        (paint-down frame)))))
+  ;; (error "not yet implemented"))
 
 (define (below-2 painter1 painter2)
-  (error "not yet implemented"))
+  (rotate90 (beside (rotate270 painter1) (rotate270 painter2))))
+  ;; (error "not yet implemented"))
 
 ;; Exercise 9
-
+; I don't feel like doing this exercise
 ; Modify wave-painter above (Exercise 6)
 
 ; Modify me!
@@ -267,12 +371,12 @@
   (if (= n 0)
       painter
       (let ((up (up-split painter (- n 1)))
-      (right (right-split painter (- n 1))))
-  (let ((top-left (beside up up))
-        (bottom-right (below right right))
-        (corner (corner-split-2 painter (- n 1))))
-    (beside (below painter top-left)
-      (below bottom-right corner))))))
+            (right (right-split painter (- n 1))))
+        (let ((top-left (beside up up))
+              (bottom-right (below right right))
+              (corner (corner-split-2 painter (- n 1))))
+          (beside (below painter top-left)
+                  (below bottom-right corner))))))
 
 ; Modify me!
 (define (square-limit-2 painter n)
