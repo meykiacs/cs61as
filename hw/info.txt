@@ -9,3 +9,5 @@ project1: q6 create a general case with a helper function and handling the speci
 project1: q10 create a helper function and repeat the helper n times on the argument
 hw4: q1 sicp 2.20: dotted tail notation
 		 q1 sicp 2.22: when manipulating a list results in reverse order or lists of lists
+hw5: q5 matrix and vector operations with conventional interfaces
+hw5: q9 extend calc for word (not done)
