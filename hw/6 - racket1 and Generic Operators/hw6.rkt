@@ -26,19 +26,76 @@
 
 ;; Exercise 1
 
-#|
-2.74  Note there is no need to write code here - this is a thought exercise.
-a. Explain.
+;; SICP 2.74
+;; each division’s personnel records consist of a single file, which
+;; contains a set of records keyed on employees’ names.
+;; The structure of the set varies from division to division.
+;; Furthermore, each employee’s record is itself a set
+;; (structured differently from division to division) that contains
+;; information keyed under identifiers such as address and salary.
 
-b. Explain.
+;; a:
+;; Implement for headquarters a get-record procedure
+;; that retrieves a specified employee’s record from a
+;; specified personnel file.
 
-c. Explain.
+;; b
+;; Implement for headquarters a get-salary procedure
+;; that returns the salary information from a given em-
+;; ployee’s record from any division’s personnel file. How
+;; should the record be structured in order to make this
+;; operation work?
 
-d. Explain.
+;; c. Implement for headquarters a find-employee-record
+;; procedure. This should search all the divisions’ files
+;; for the record of a given employee and return the record.
+;; Assume that this procedure takes as arguments an
+;; employee’s name and a list of all the divisions’ files.
 
-|#
+;; d. When Insatiable takes over a new company, what changes
+;; must be made in order to incorporate the new person-
+;; nel information into the central system?
 
-;; 2.75 Define make-from-mag-ang-mp.
+;; ANSWER
+;; The table for this question should have a horizontal axis of division name(type)
+;; and a vertical axis of procedures(op).
+
+;; a
+;; each division/file/type should have a get-record procedure and put it on the table
+;; under its own name
+;; (put 'file-1 'get-record file-1-get-record)
+
+;; (define (get-record employee file)
+;;   ((get file 'get-record) employee))
+
+;; b
+;; each record should have a type-tag saying which file/division it is from
+;; each division should put its own version of get salary for records
+;; there should be a apply-generic procedure that for each record, calls the correct function
+
+;; (put 'file-1 'get-salary file-1-get-salary)
+
+;; (define (get-salary record)
+;;   (operate 'get-salary record))
+
+;; c
+;; (define (find-employee-record employee files)
+;;   (if (null? empty) false
+;;       (let (
+;;             (record (get-record employee (car files))))
+;;         (if record record (find-employee-record employee (cdr files))))))
+
+;; d
+;; if a new division is added it has to put its procedures for get-record and get-salary
+;; into the system.
+;; the file of the division must be added too
+
+
+;; SICP 2.75
+;; Implement the constructor make-from-mag-
+;; ang in message-passing style. is procedure should be analogous to the
+;; make-from-real-imag procedure given below.
+
 ;(define (square x) (* x x))
 
 (define (make-from-real-imag-mp x y)
@@ -60,16 +117,48 @@ d. Explain.
 (define (ang-mp z) (apply-generic-message-passing 'ang z))
 
 (define (make-from-mag-ang-mp r a)
-  '(YOUR CODE HERE)
-)
+  ;; '(YOUR CODE HERE)
+    (define (dispatch op)
+    (cond ((eq? op 'real-val) (* r (cos a)))
+          ((eq? op 'imag-val) (* r (sin a)))
+          ((eq? op 'mag) r)
+          ((eq? op 'ang) a)
+          (else
+           (error "Unknown op -- MAKE-FROM-REAL-IMAG" op))))
+  dispatch)
+
 
 #|
-2.76 Describe the changes.
+2.76
+For each of the three strategies—generic operations with explicit dispatch,
+data-directed style, and message-passing-style, describe the changes that must be made to a
+system in order to add new types or new operations. Which
+organization would be most appropriate for a system in
+which new types must often be added? Which would be
+most appropriate for a system in which new operations
+must often be added? Describe the changes.
 
+ANSWER:
+- explicit dispatch (conventional style) (good for adding operations) (nothing is modified)
+-- new cond clause must be added for new types
+-- in case of a new operation, it must consider all types as cond clauses
+
+- data directed
+-- in case of new types, new rows for the table
+-- in case of new procedures, new columns for each type
+
+- message passing (good when adding data) (nothing is modified)
+-- in case of new types: a new type is added with its own procedure->method
+-- in case of new operation: each type must add its own procedure
 |#
 
 #|
-2.77 Explain.
+
+SICP 2.77
+why putting this line of code works to get the magnitude of a complex number implemented below
+(put 'magnitude '(complex) real-part)
+apply-generic is called twice, once to obtain the complex package procedure
+and once to obtain the rectangular package procedure.
 
 |#
 
@@ -93,6 +182,11 @@ d. Explain.
        (lambda (x y) (tag (/ x y))))
   (put 'make 'racket-number
        (lambda (x) (tag x)))
+
+  ;; added by me
+  (put 'raise-num '(racket-number)
+     (lambda (x) (make-complex-from-real-imag x 0)))
+
   'done)
 
 (define (make-racket-number n)
@@ -119,6 +213,7 @@ d. Explain.
   (define (div-rat x y)
     (make-rat (* (numer x) (denom y))
               (* (denom x) (numer y))))
+
   ;; interface to rest of the system
   (define (tag x) (attach-tag 'rational x))
   (put 'add '(rational rational)
@@ -132,7 +227,16 @@ d. Explain.
 
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d))))
+
+  ;; added by me
+  (put 'equ? '(rational rational)
+       (lambda (x y) (= (* (numer x) (denom y)) (* (numer y) (denom x)))))
+  (put '=zero? '(rational) (lambda (x) (and (= (numer x) 0) (not (= (denom x) 0)))))
+  (put 'raise-num '(rational)
+     (lambda (x) (make-racket-number (/ (numer x) (denom x)))))
+
   'done)
+
 
 (define (make-rational n d)
   ((get 'make 'rational) n d))
@@ -147,7 +251,7 @@ d. Explain.
              (square (imag-val z)))))
   (define (ang z)
     (atan (imag-val z) (real-val z)))
-  (define (make-from-mag-ang r a) 
+  (define (make-from-mag-ang r a)
     (cons (* r (cos a)) (* r (sin a))))
 
   ;; interface to the rest of the system
@@ -171,7 +275,7 @@ d. Explain.
     (* (mag z) (cos (ang z))))
   (define (imag-val z)
     (* (mag z) (sin (ang z))))
-  (define (make-from-real-imag x y) 
+  (define (make-from-real-imag x y)
     (cons (sqrt (+ (square x) (square y)))
           (atan y x)))
 
@@ -226,6 +330,9 @@ d. Explain.
        (lambda (x y) (tag (make-from-real-imag x y))))
   (put 'make-from-mag-ang 'complex
        (lambda (r a) (tag (make-from-mag-ang r a))))
+
+  (put '=zero? '(complex)
+       (lambda (x) (and (= (real-val x) 0) (= (imag-val x) 0))))
   'done)
 
 (define (make-complex-from-real-imag x y)
@@ -265,24 +372,77 @@ d. Explain.
 (define (equ? a b)
   (apply-generic 'equ? a b))
 
+;; better to put this line of code in the racket-number package
+(put 'equ? '(racket-number racket-number)
+     (lambda (x y) (= x y)))
+
+;; these lines were put in the install package for rationals:
+;; (put 'equ? '(rational rational)
+;;      (lambda (x y) (= (* (numer x) (denom y)) (* numer y) (denom x))))
+
+;; better to put this line of code in the complex package
+(put 'equ? '(complex complex)
+     (lambda (x y) (and (= (real-val x) (real-val y)) (= (real-val x) (real-val y)))))
+
 ;; 2.80 Define =zero? for racket-number, rational, and complex packages.
 
 (define (=zero? num)
   (apply-generic '=zero? num))
 
+;; better to put this line of code in the racket-number package
+(put '=zero? '(racket-number) (lambda (x) (= x 0)))
+
+;; for rational and complex number, the lines were put in the install package
+
 #|
 2.81
-a. Explain.
+a.
+Louis Reasoner has noticed that apply-generic
+may try to coerce the arguments to each other’s type even
+if they already have the same type.
+(define (scheme-number->scheme-number n) n)
+(put-coercion 'scheme-number 'scheme-number scheme-number->scheme-number)
 
-b. Explain.
+what happens if apply-generic is called with two arguments
+of type scheme-number or two arguments of type complex
+for an operation that is not found in the table for those
+types? For example, assume that we’ve defined a generic
+exponentiation operation:
+(define (exp x y) (apply-generic 'exp x y))
+
+and have put a procedure for exponentiation in the
+Scheme-number package but not in any other pack-
+age:
+following added to Scheme-number package
+(put 'exp '(scheme-number scheme-number)
+(lambda (x y) (tag (expt x y))))
+; using primitive expt
+
+What happens if we call exp with two complex num-
+bers as arguments?
+
+ANSWER:
+apply-generic calls itself recursively on coerced types, so it goes into infinite recursion.
+
+b.
+Is Louis correct that something had to be done about
+coercion with arguments of the same type, or does
+apply-generic work correctly as is?
+
+ANSWER:
+it works as it is. no need to coerce same types.
 
 |#
 
 ;; c. Modify apply-generic.
+;; Modify apply-generic so that it doesn’t try coercion
+;; if the two arguments have the same type.
 ;; You may want to change the name to "apply-generic" for testing.
 ;; However, on submitting it should be apply-generic-better-coercion.
 
 (define (apply-generic-better-coercion op . args)
+  (define (no-method type-tags)
+    (error "No method for these types" (list op type-tags)))
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
       (if proc
@@ -292,15 +452,17 @@ b. Explain.
                     (type2 (cadr type-tags))
                     (a1 (car args))
                     (a2 (cadr args)))
-                (let ((t1->t2 (get-coercion type1 type2))
-                      (t2->t1 (get-coercion type2 type1)))
-                  (cond (t1->t2
-                         (apply-generic op (t1->t2 a1) a2))
-                        (t2->t1
-                         (apply-generic op a1 (t2->t1 a2)))
-                        (else
-                         (error "No method for these types"
-                                (list op type-tags)))))) 
+                ;; edited code
+                (if (eq? type1 type2)
+                    (no-method type-tags)
+                    (let ((t1->t2 (get-coercion type1 type2))
+                          (t2->t1 (get-coercion type2 type1)))
+                      (cond (t1->t2
+                             (apply-generic op (t1->t2 a1) a2))
+                            (t2->t1
+                             (apply-generic op a1 (t2->t1 a2)))
+                            (else
+                             (no-method type-tags))))))
               (error "No method for these types"
                      (list op type-tags)))))))
 
@@ -312,6 +474,19 @@ b. Explain.
 
 (define (raise-num num)
   (apply-generic 'raise-num num))
+
+;; YOUR CODE HERE
+
+(put 'raise-num '(integer)
+     (lambda (x) (make-rational x 1)))
+
+;; add into rational package
+;; (put 'raise 'rational
+;;      (lambda (x) (make-racket-number (/ (numer x) (denom x)))))
+
+;; add into real package
+;; (put 'raise 'racket-number
+;;           (lambda (x) (make-complex-from-real-imag x 0)))
 
 
 ;; Here is Racket-1, taken from ~cs61as/lib/racket1.rkt
@@ -399,7 +574,7 @@ b. Explain.
 
 (define (intersection-ordered-set set1 set2)
   (if (or (null? set1) (null? set2))
-      '()    
+      '()
       (let ((x1 (car set1)) (x2 (car set2)))
         (cond ((= x1 x2)
                (cons x1
@@ -446,7 +621,7 @@ b. Explain.
                     (adjoin-set x (right-branch set))))))
 
 ;; Exercise 5
-;;Uncomment the following definitions and replace the zeros below with 
+;;Uncomment the following definitions and replace the zeros below with
 ;;appropriate numbers to construct the trees
 
 #|
