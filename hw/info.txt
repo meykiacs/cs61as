@@ -16,3 +16,6 @@ hw7: q5: accumulate, flatmap, nth, delete!, shuffle
 hw8: sicp 3.7: dispatching with local values
 hw8: sicp 3.8: THE ONLY POINT IS THE ORDER OF EVALUATING ARGS MATTERS IF STATE CHANGES
 hw8: sicp 3.10 3.11 environment diagrams not done
+hw9: sicp 3.17, how come does the answer work for cyclic lists?
+hw9: sicp 3.25 a complicated recursion exercise
+hw9: q3 and q4 some nice box and pointer diagrams
