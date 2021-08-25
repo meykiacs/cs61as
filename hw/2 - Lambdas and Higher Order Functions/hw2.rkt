@@ -1,6 +1,8 @@
 #lang racket
 
-(require berkeley)
+;; (require berkeley)
+(require (planet dyoo/simply-scheme))
+(require math/number-theory)
 (provide (all-defined-out))
 
 ; Exercise 1 - Define substitute

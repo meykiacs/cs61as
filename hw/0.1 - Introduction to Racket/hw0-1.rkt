@@ -7,7 +7,7 @@
 
 ;; This tells Racket that you want to use words and sentences (which
 ;; are disabled by default).
-(require (planet dyoo/simply-scheme))
+;; (require (planet dyoo/simply-scheme))
 
 ;; This tells Racket that it should "know" about all the functions you
 ;; define in this file.  (Don't worry about this for now.)

@@ -1,6 +1,7 @@
 #lang racket
 
-(require berkeley)
+;; (require berkeley)
+(require (planet dyoo/simply-scheme))
 (provide (all-defined-out))
 
 ; Exercise 1 - Define dupls-removed

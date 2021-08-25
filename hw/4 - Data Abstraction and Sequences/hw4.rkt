@@ -1,6 +1,5 @@
 #lang racket
 
-(require berkeley)
 (provide (all-defined-out))
 
 ; Exercise 1

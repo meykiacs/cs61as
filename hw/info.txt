@@ -10,7 +10,6 @@ project1: q10 create a helper function and repeat the helper n times on the argu
 hw4: q1 sicp 2.20: dotted tail notation
 		 q1 sicp 2.22: when manipulating a list results in reverse order or lists of lists
 hw5: q5 matrix and vector operations with conventional interfaces
-hw5: q9 extend calc for word (not done)
 hw6: q0, q2-q6 not done
 hw7: q5: accumulate, flatmap, nth, delete!, shuffle
 hw8: sicp 3.7: dispatching with local values
